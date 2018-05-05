@@ -1,8 +1,20 @@
-const logger = require('./logger')
 const express = require('express')
-const bodyParser = require('body-parser')
 const app = express()
 
+// <=== Middleware ===>//
+const helmet = require('helmet')
+const morgan = require('morgan')
+const logger = require('./logger')
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+app.use(helmet())
+app.use(morgan('tiny'))
+app.use(logger)
+
+// <=== Temp Data ===>//
 const genres = [
   { id: 1, name: 'sci-fi' },
   { id: 2, name: 'fantasy' },
@@ -11,12 +23,7 @@ const genres = [
   { id: 5, name: 'mystery' }
 ]
 
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
-
-app.use(logger)
-
+// <=== Routes ===>//
 app.get('/api/genres', (req, res) => {
   res.send(genres)
 })
