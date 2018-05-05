@@ -11,8 +11,13 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(helmet())
-app.use(morgan('tiny'))
 app.use(logger)
+
+// <=== Development Variables ===>//
+if (app.get('env') === 'development') {
+  app.use(morgan('tiny'))
+  console.log('Morgan is enabled')
+}
 
 // <=== Temp Data ===>//
 const genres = [
