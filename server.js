@@ -1,5 +1,9 @@
 const express = require('express')
 const app = express()
+const config = require('config')
+
+// <=== Debug functions ===>//
+const debug = require('debug')('app:startup')
 
 // <=== Middleware ===>//
 const helmet = require('helmet')
@@ -13,10 +17,15 @@ app.use(express.static('public'))
 app.use(helmet())
 app.use(logger)
 
+// <=== Configuration ===>//
+console.log('Application Name: ' + config.get('name'))
+console.log('Mail Server: ' + config.get('mail.host'))
+console.log('Mail Password: ' + config.get('mail.password'))
+
 // <=== Development Variables ===>//
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'))
-  console.log('Morgan is enabled')
+  debug('Morgan enabled')
 }
 
 // <=== Temp Data ===>//
