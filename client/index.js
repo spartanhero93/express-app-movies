@@ -1,3 +1,10 @@
 const genres = document.querySelectorAll('.genre')
 
-genres[0].textContent = 'lols waifus are bae'
+async function request () {
+  const response = await fetch('/api/genres')
+  const json = await response.json()
+
+  console.log(json)
+}
+
+request()
